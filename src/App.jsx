@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./App.css"
 
 function getWeatherCondition(code) {
   if (code === 0) return "Clear sky";
@@ -7,19 +8,22 @@ function getWeatherCondition(code) {
   else if (code === 2) return "Partly cloudy";
   else if (code === 3) return "Overcast";
 
-  else if (code >= 45 && code <= 48) return "Fog";
+  else if (code === 45) return "Fog";
+  else if (code === 48) return "Depositing rime fog";
 
   else if (code === 51) return "Light drizzle";
   else if (code === 53) return "Moderate drizzle";
   else if (code === 55) return "Dense drizzle";
 
-  else if (code === 56 || code === 57) return "Freezing drizzle";
+  else if (code === 56) return "Light freezing drizzle";
+  else if (code === 57) return "Dense freezing drizzle";
 
   else if (code === 61) return "Slight rain";
   else if (code === 63) return "Moderate rain";
   else if (code === 65) return "Heavy rain";
 
-  else if (code === 66 || code === 67) return "Freezing rain";
+  else if (code === 66) return "Light freezing rain";
+  else if (code === 67) return "Heavy freezing rain";
 
   else if (code === 71) return "Slight snowfall";
   else if (code === 73) return "Moderate snowfall";
@@ -34,11 +38,10 @@ function getWeatherCondition(code) {
   else if (code === 85) return "Slight snow showers";
   else if (code === 86) return "Heavy snow showers";
 
-  else if (code === 95) return "Thunderstorm";
+  else if (code === 95) return "Thunderstorm: Slight or moderate";
 
-  else if (code === 96 || code === 99) {
-    return "Thunderstorm with hail";
-  }
+  else if (code === 96) return "Thunderstorm with slight hail";
+  else if (code === 99) return "Thunderstorm with heavy hail";
 
   else return "Unknown";
 }
@@ -46,10 +49,10 @@ function getWeatherCondition(code) {
 
 
 function App(){
-    const city = "Kozhikkode";
+    const city = "Al Ain";
     const [weather,setWeather] = useState(null);
     useEffect(()=>{
-        fetch("https://api.open-meteo.com/v1/forecast?latitude=11.2588&longitude=75.7804&current=temperature_2m,weather_code")//longitude and latitude weather details of Kozhikkode.
+        fetch("https://api.open-meteo.com/v1/forecast?latitude=24.22164&longitude=55.79631&current=temperature_2m,weather_code")//longitude and latitude weather details of Kozhikkode.
         .then((response)=>response.json())
         // .then((data)=>console.log(data))
         .then((data)=>setWeather(data));
