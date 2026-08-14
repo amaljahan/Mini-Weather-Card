@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import "./App.css"
 
 function getWeatherCondition(code) {
@@ -51,15 +52,32 @@ function getWeatherCondition(code) {
 function App(){
     const city = "Al Ain";
     const [weather,setWeather] = useState(null);
+    const [loading,setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(()=>{
         fetch("https://api.open-meteo.com/v1/forecast?latitude=24.22164&longitude=55.79631&current=temperature_2m,weather_code")//longitude and latitude weather details of Kozhikkode.
-        .then((response)=>response.json())
+        .then((response)=>{
+           if(!response.ok){
+            throw new Error("Failed to fetch weather data.");
+           }
+           return response.json()
+        })
         // .then((data)=>console.log(data))
-        .then((data)=>setWeather(data));
+        .then((data)=>{
+            setWeather(data);
+            setLoading(false);
+        })
+        .catch((error)=>{
+            setError(error.message);
+            setLoading(false);
+        })
     },[]);
     return (
         <div className="app">
             <h1>Weather App</h1>
+            {loading && <p>Loading Weather...</p>}
+            {error && <p>{error}</p>}
 
         {weather && (
             <div className="weather-card">
@@ -68,9 +86,7 @@ function App(){
                 <p>{getWeatherCondition(weather.current.weather_code)}</p>
                 
             </div>
-         
-            
-    
+      
                      
         )}
         </div>
