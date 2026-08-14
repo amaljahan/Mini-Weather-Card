@@ -16,3 +16,7 @@ A simple weather application built using HTML, CSS , JavaScript and React.
 - CSS
 - JavaScript
 - React
+
+
+## Hosted Link 
+- https://mini-weather-card-lime.vercel.app/
